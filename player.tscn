@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://brf8p0ffywqew"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_7apxh"]
+[ext_resource type="Texture2D" uid="uid://pofrrkrj7bph" path="res://Custom Sprites/Vampire.png" id="2_id07p"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8lvam"]
+radius = 24.0
+height = 58.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_7apxh")
+
+[node name="Vampire" type="Sprite2D" parent="."]
+texture = ExtResource("2_id07p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CapsuleShape2D_8lvam")
