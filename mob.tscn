@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5acnkc8unwf"]
+
+[ext_resource type="Texture2D" uid="uid://co3rtf3rxwjmf" path="res://Custom Sprites/WBC.png" id="1_1uy5v"]
+[ext_resource type="Script" path="res://mob.gd" id="2_54ts1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0tx5n"]
+radius = 15.0
+height = 40.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("2_54ts1")
+
+[node name="Mob" type="Sprite2D" parent="."]
+position = Vector2(2.5, 3)
+scale = Vector2(2.15625, 2.0625)
+texture = ExtResource("1_1uy5v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0tx5n")

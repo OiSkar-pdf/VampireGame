@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://3gkonfgcgow7"]
+
+[ext_resource type="Script" path="res://dagger.gd" id="1_4pfc1"]
+[ext_resource type="Texture2D" uid="uid://xpsbkpwkh4vy" path="res://Custom Sprites/sword.png" id="1_jl3ow"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3x2l7"]
+radius = 4.0
+height = 28.0
+
+[node name="dagger" type="Area2D"]
+top_level = true
+position = Vector2(-8, 0)
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_4pfc1")
+
+[node name="Sword" type="Sprite2D" parent="."]
+position = Vector2(3.96711, 4.07875)
+rotation = 1.5708
+scale = Vector2(0.949184, 1.00299)
+texture = ExtResource("1_jl3ow")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(13, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3x2l7")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,11 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://brf8p0ffywqew"]
+[gd_scene load_steps=7 format=3 uid="uid://brf8p0ffywqew"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_7apxh"]
 [ext_resource type="Texture2D" uid="uid://pofrrkrj7bph" path="res://Custom Sprites/Vampire.png" id="2_id07p"]
+[ext_resource type="PackedScene" uid="uid://6pld7qubhd33" path="res://sword.tscn" id="3_okh5e"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8lvam"]
 radius = 24.0
 height = 58.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_serem"]
+radius = 24.0
+height = 68.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fjjcq"]
+bg_color = Color(2.31028e-06, 0.723095, 0.267945, 1)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_7apxh")
@@ -16,3 +24,26 @@ texture = ExtResource("2_id07p")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -3)
 shape = SubResource("CapsuleShape2D_8lvam")
+
+[node name="Sword" parent="." instance=ExtResource("3_okh5e")]
+
+[node name="HurtBox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -3)
+shape = SubResource("CapsuleShape2D_serem")
+debug_color = Color(0.864038, 0.304658, 0.489991, 0.42)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -59.0
+offset_top = -64.0
+offset_right = 69.0
+offset_bottom = -37.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/fill = SubResource("StyleBoxFlat_fjjcq")
+value = 100.0
+show_percentage = false

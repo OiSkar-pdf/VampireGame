@@ -1,20 +1,61 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnugq0pja41j3"]
+[gd_scene load_steps=8 format=3 uid="uid://cnugq0pja41j3"]
 
 [ext_resource type="Texture2D" uid="uid://cj46dauw0tvdo" path="res://Custom Sprites/grassBackground.png" id="1_i0c2n"]
+[ext_resource type="Script" path="res://survivors_game.gd" id="1_ltoxl"]
 [ext_resource type="PackedScene" uid="uid://brf8p0ffywqew" path="res://player.tscn" id="1_mv2oi"]
+[ext_resource type="PackedScene" uid="uid://c5acnkc8unwf" path="res://mob.tscn" id="3_16rhg"]
 [ext_resource type="PackedScene" uid="uid://bd1rve6w8a24n" path="res://Tree.tscn" id="3_hxcbh"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8122"]
+bg_color = Color(0.6, 0.6, 0.6, 0.439216)
+
+[sub_resource type="Curve2D" id="Curve2D_nym7q"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -64, -78, 0, 0, 0, 0, 1256, -81, 0, 0, 0, 0, 616, 704)
+}
+point_count = 3
+
 [node name="Game" type="Node2D"]
+script = ExtResource("1_ltoxl")
 
 [node name="GrassBackground" type="Sprite2D" parent="."]
 position = Vector2(602, 306)
 scale = Vector2(1.17659, 1.09177)
 texture = ExtResource("1_i0c2n")
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("1_mv2oi")]
+[node name="Level" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 1132.0
+offset_top = 12.0
+offset_right = 1198.0
+offset_bottom = 39.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_a8122")
+
+[node name="GarlicToll" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 102.0
+offset_bottom = 33.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_a8122")
+text = "1"
+
+[node name="Player" parent="." instance=ExtResource("1_mv2oi")]
 y_sort_enabled = true
 position = Vector2(206, 76)
 up_direction = Vector2(-0.970142, -0.242536)
+
+[node name="Path2D" type="Path2D" parent="Player"]
+position = Vector2(-206, -76)
+curve = SubResource("Curve2D_nym7q")
+
+[node name="follow" type="PathFollow2D" parent="Player/Path2D"]
+unique_name_in_owner = true
+position = Vector2(-64, -78)
+rotation = -0.00227272
+
+[node name="Mob" parent="." instance=ExtResource("3_16rhg")]
+position = Vector2(338, 335)
 
 [node name="StaticBody2D" parent="." instance=ExtResource("3_hxcbh")]
 position = Vector2(109, 104)
@@ -43,3 +84,42 @@ scale = Vector2(1.5, 1.5)
 [node name="StaticBody2D7" parent="." instance=ExtResource("3_hxcbh")]
 position = Vector2(378, 543)
 scale = Vector2(1.5, 1.5)
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+autostart = true
+
+[node name="RoundTime" type="Timer" parent="."]
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.992157, 0.8, 0.858824, 0.65098)
+
+[node name="Label" type="Label" parent="GameOver/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.5
+offset_top = -41.5
+offset_right = 163.5
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "Game Over"
+
+[connection signal="health_deplete" from="Player" to="." method="_on_player_health_deplete"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="RoundTime" to="." method="_on_round_time_timeout"]
